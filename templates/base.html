@@ -5,23 +5,94 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="{% static 'css/semantic.css' %}" rel="stylesheet">
+    <link href="{% static 'semantic-ui/semantic.css' %}" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/earlyaccess/notosanstc.css" rel="stylesheet">
 
     <title>Montreal Chinese Story</title>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-    <script src="{% static 'js/semantic.js' %}"></script>
+    <script src="{% static 'semantic-ui/semantic.js' %}"></script>
 		
 		<style>
 			* {
 					font-family: 'Noto Sans TC', sans-serif;
 				}
+
+			.masthead.segment {
+				min-height: 200px;
+				padding: 2em 0em;
+			}
+
+			.masthead .header {
+				padding: 2em 2em;
+			}
+
+			.maincontainer {
+				padding: 4em 0em;
+			}
+
+			.storynotice {
+				min-height: 300px;
+				padding: 4em 0em;
+			}
+
+			.storynotice .message {
+				padding: 2em 2em;
+			}
+			
+			.storyhistory.segment {
+				padding: 2em 2em;
+			}
+			
 		</style>
   </head>
+	
   <body>
+		<div class="ui vertical teal inverted masthead center aligned segment">
+			<div class="ui text container">
+				<h1 class="ui header">Montreal Chinese Story</h1>
+			</div>
+			<div class="ui labeled icon button">
+				<i class="user outline icon"></i>Admin Login
+			</div>
+		</div>
+
+		<div class="ui maincontainer container">
+			
+		<div class="ui storynotice text container">
+			<div class="ui icon message">
+				<i class="file text outline icon"></i>
+				<div class="content">
+						<div class="header">
+							There is no new story gathering.
+						</div>
+						<p>Please come back later.</p>
+				</div>
+			</div>
+		</div>
+				
 		<div class="ui text container">
-			<h1 class="ui header">Montreal Chinese Story</h1>
+			<div class="ui storyhistory segment">
+				<h3 class="header">
+					Recent story history
+				</h3>
+				<div class="ui list">
+					<div class="item">
+						<i class="icon"></i>
+						<div class="content">
+							first story
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		</div>
+		
+		<div class="ui vertical teal inverted mastfoot center aligned segment">
+			<div class="ui text container">
+				<p>Sponsored by 6677ba.ca</p>
+			</div>
 		</div>
 
   </body>
