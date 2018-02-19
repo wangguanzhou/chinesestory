@@ -19,5 +19,6 @@ from storysite import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.homepage, name='home')
+    path('chinesestory/', views.homepage),
+    path('chinesestory/admin/', views.admin)
 ]

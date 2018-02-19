@@ -1,0 +1,34 @@
+{% extends "./base.html" %}
+{% load static %}
+
+{% block admin-login %}
+
+<div class="ui text container">
+  <div class="ui two column centered grid">
+
+    <div class="column center aligned">
+      <p>[ 管理员登录 ]</p>
+      <form class="ui large form" id="admin-login" method="POST">
+        {% csrf_token %}
+        <div class="ui segment">
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="user icon"></i>
+              <input type="text" name="admin-name" placeholder="Admin Name">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input type="password" name="admin-pass" placeholder="Admin Password">
+            </div>
+          </div>
+          <button class="ui teal fluid button" type="submit">登 录</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
