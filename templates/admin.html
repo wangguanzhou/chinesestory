@@ -4,9 +4,43 @@
 {% block admin-login %}
 
 <div class="ui text container">
-  <div class="ui two column centered grid">
 
+  <div class="ui two column centered grid">
     <div class="column center aligned">
+
+      {% if authenticated %}
+      <div class="ui message">
+        You have logged in as {{ district_name }}. <a
+          href="/chinesestory/logout/">Logout</a>
+      </div>
+      <div class="ui segment">
+        <div class="ui vertical labled buttons">
+          <a href="/chinesestory/createnotice">
+          <div class="ui labeled icon button">
+            <i class="clone icon"></i> create story notice.
+          </div>
+          </a>
+
+          <div class="ui hidden divider"></div>
+          
+          <a href="/chinesestory/modifynotice/">
+          <div class="ui labeled icon button">
+            <i class="edit icon"></i> Modify or delete story notice.
+          </div>
+          </a>
+        </div>
+      </div>
+
+      {% else %}
+      {% if login_error %}
+
+      <div class="ui warning message">
+        Login error. Please try again.
+      </div>
+
+
+      {% endif %}
+
       <p>[ 管理员登录 ]</p>
       <form class="ui large form" id="admin-login" method="POST">
         {% csrf_token %}
@@ -27,6 +61,8 @@
         </div>
 
       </form>
+
+      {% endif %}
     </div>
   </div>
 </div>

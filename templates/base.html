@@ -6,17 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="{% static 'semantic-ui/semantic.css' %}" rel="stylesheet">
+    <link href="{% static 'semantic-ui/calendar/calendar.css' %}" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/earlyaccess/notosanstc.css" rel="stylesheet">
 
     <title>Montreal Chinese Story</title>
     
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-    <script src="{% static 'semantic-ui/semantic.js' %}"></script>
-		
 		<style>
 			* {
 					font-family: 'Noto Sans TC', sans-serif;
 				}
+
+      .myheader {
+        font-size: 1.2em;
+      }
 
 			.masthead.segment {
 				min-height: 200px;
@@ -45,6 +47,7 @@
 			}
 			
 		</style>
+
   </head>
 	
   <body>
@@ -69,6 +72,10 @@
 			{% block admin-login %}
 			{% endblock %}
 
+			{% block create-notice %}
+			{% endblock %}
+
+
 		</div>
 		
 		<div class="ui vertical teal inverted mastfoot center aligned segment">
@@ -76,6 +83,31 @@
 				<p>&copy; 2018 6677ba 友情制作</p>
 			</div>
 		</div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="{% static 'semantic-ui/semantic.js' %}"></script>
+    <script src="{% static 'semantic-ui/calendar/calendar.js' %}"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#storydate').calendar({
+          type: 'date'
+        });
+        $('#storytime').calendar({
+          type: 'time'
+        });
+        $('#regdate').calendar({
+          type: 'date'
+        });
+        $('#regtime').calendar({
+          type: 'time'
+        });
+
+
+      });
+    </script>
+
+
 
   </body>
 

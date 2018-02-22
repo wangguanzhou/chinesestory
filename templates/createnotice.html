@@ -1,0 +1,118 @@
+{% extends "./base.html" %}
+{% load static %}
+
+{% block create-notice %}
+
+<div class="ui container">
+	<div class="ui two column centered grid">
+		<div class="column">
+			<div class="ui center aligned grid">
+				<p class="myheader">[ create notice ] </p>
+			</div>
+
+			<div class="ui hidden divider"></div>
+
+			<form class="ui large form" id="new-notice" method="POST">
+				{% csrf_token %}
+				<div class="ui segment">
+					<div class="field">
+						<label>故事会主题</label>
+						<input type="text" placeholder="">
+					</div>
+					<div class="field">
+						<label>故事会date/time</label>
+						<div class="two fields">
+							<div class="field">
+								<div class="ui calendar" id="storydate">
+									<div class="ui input left icon">
+										<i class="calendar icon"></i>
+										<input type="text" placeholder="Date">
+									</div>
+								</div>
+							</div>
+							<div class="field">
+								<div class="ui calendar" id="storytime">
+									<div class="ui input left icon">
+										<i class="time icon"></i>
+										<input type="text" placeholder="Time">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="two fields">
+						<div class="field">
+							<label>Host</label>
+							<input type="text" placeholder="host">
+						</div>
+						<div class="field">
+							<label>Maximum number</label>
+							<input type="text" name="story_maxsize" value="{{ notice_data.story_maxsize }}">
+						</div>
+					</div>
+
+					<div class="field">
+						<label>故事会venue</label>
+						<input type="text" name="story_place" value="{{ notice_data.story_place }}">
+					</div>
+					<div class="field">
+						<label>故事会address</label>
+						<input type="text" name="story_address" value="{{ notice_data.story_address }}">
+					</div>
+					
+					<div class="field">
+						<label>registration date/time</label>
+						<div class="two fields">
+							<div class="field">
+								<div class="ui calendar" id="regdate">
+									<div class="ui input left icon">
+										<i class="calendar icon"></i>
+										<input type="text" placeholder="Date">
+									</div>
+								</div>
+							</div>
+							<div class="field">
+								<div class="ui calendar" id="regtime">
+									<div class="ui input left icon">
+										<i class="time icon"></i>
+										<input type="text" placeholder="Time">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="field">
+						<label>故事会activity-1</label>
+						<textarea name="story_activity_1" rows="2">{{ notice_data.story_activity_1 }}</textarea>
+					</div>
+					<div class="field">
+						<label>故事会activity-2</label>
+						<textarea rows="2"></textarea>
+					</div>
+					<div class="field">
+						<label>故事会activity-3</label>
+						<textarea rows="2"></textarea>
+					</div>
+					<div class="field">
+						<label>故事会activity-4</label>
+						<textarea rows="2"></textarea>
+					</div>
+					<div class="field">
+						<label>故事会activity-5</label>
+						<textarea rows="2"></textarea>
+					</div>
+	
+					
+					<button class="ui teal fluid button" type="submit">Publish</button>
+
+				</div>
+				
+			</form>
+
+		</div>
+	</div>
+</div>
+	
+{% endblock %}
