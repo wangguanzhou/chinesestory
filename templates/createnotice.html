@@ -16,17 +16,17 @@
 				{% csrf_token %}
 				<div class="ui segment">
 					<div class="field">
-						<label>故事会主题</label>
-						<input type="text" placeholder="">
+						<label>{{ notice_form.story_theme.label }}</label>
+						{{ notice_form.story_theme }}
 					</div>
 					<div class="field">
-						<label>故事会date/time</label>
+						<label>{{ notice_form.story_date.label }}</label>
 						<div class="two fields">
 							<div class="field">
 								<div class="ui calendar" id="storydate">
 									<div class="ui input left icon">
 										<i class="calendar icon"></i>
-										<input type="text" placeholder="Date">
+										{{ notice_form.story_date }}
 									</div>
 								</div>
 							</div>
@@ -34,7 +34,7 @@
 								<div class="ui calendar" id="storytime">
 									<div class="ui input left icon">
 										<i class="time icon"></i>
-										<input type="text" placeholder="Time">
+										{{ notice_form.story_time }}
 									</div>
 								</div>
 							</div>
@@ -43,32 +43,32 @@
 
 					<div class="two fields">
 						<div class="field">
-							<label>Host</label>
-							<input type="text" placeholder="host">
+							<label>{{ notice_form.story_host.label }}</label>
+							{{ notice_form.story_host }}
 						</div>
 						<div class="field">
-							<label>Maximum number</label>
-							<input type="text" name="story_maxsize" value="{{ notice_data.story_maxsize }}">
+							<label>{{ notice_form.story_size.label }}</label>
+							{{ notice_form.story_size }}
 						</div>
 					</div>
 
 					<div class="field">
-						<label>故事会venue</label>
-						<input type="text" name="story_place" value="{{ notice_data.story_place }}">
+						<label>{{ notice_form.story_venue.label }}</label>
+						{{ notice_form.story_venue }}
 					</div>
 					<div class="field">
-						<label>故事会address</label>
-						<input type="text" name="story_address" value="{{ notice_data.story_address }}">
+						<label>{{ notice_form.story_address.label }}</label>
+						{{ notice_form.story_address }}
 					</div>
 					
 					<div class="field">
-						<label>registration date/time</label>
+						<label>{{ notice_form.reg_date.label }}</label>
 						<div class="two fields">
 							<div class="field">
 								<div class="ui calendar" id="regdate">
 									<div class="ui input left icon">
 										<i class="calendar icon"></i>
-										<input type="text" placeholder="Date">
+										{{ notice_form.reg_date }}
 									</div>
 								</div>
 							</div>
@@ -76,7 +76,7 @@
 								<div class="ui calendar" id="regtime">
 									<div class="ui input left icon">
 										<i class="time icon"></i>
-										<input type="text" placeholder="Time">
+										{{ notice_form.reg_time }}
 									</div>
 								</div>
 							</div>
@@ -84,24 +84,24 @@
 					</div>
 
 					<div class="field">
-						<label>故事会activity-1</label>
-						<textarea name="story_activity_1" rows="2">{{ notice_data.story_activity_1 }}</textarea>
+						<label>{{ notice_form.story_activity_1.label }}</label>
+						{{ notice_form.story_activity_1 }}
 					</div>
 					<div class="field">
-						<label>故事会activity-2</label>
-						<textarea rows="2"></textarea>
+						<label>{{ notice_form.story_activity_2.label }}</label>
+						{{ notice_form.story_activity_2 }}
 					</div>
 					<div class="field">
-						<label>故事会activity-3</label>
-						<textarea rows="2"></textarea>
+						<label>{{ notice_form.story_activity_3.label }}</label>
+						{{ notice_form.story_activity_3 }}
 					</div>
 					<div class="field">
-						<label>故事会activity-4</label>
-						<textarea rows="2"></textarea>
+						<label>{{ notice_form.story_activity_4.label }}</label>
+						{{ notice_form.story_activity_4 }}
 					</div>
 					<div class="field">
-						<label>故事会activity-5</label>
-						<textarea rows="2"></textarea>
+						<label>{{ notice_form.story_activity_5.label }}</label>
+						{{ notice_form.story_activity_5 }}
 					</div>
 	
 					

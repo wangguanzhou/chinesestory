@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
+from .forms import NoticeForm
 
 DistrictNames = {
     'bsdadmin': 'Brossard',
@@ -65,6 +66,8 @@ def createnotice(request):
     district_name = 'Brossard'
     default_notice = set_default_notice(district_name)
     context['notice_data'] = default_notice
+    notice_form = NoticeForm()
+    context['notice_form'] = notice_form
     return render(request, 'createnotice.html', context)
 
 
