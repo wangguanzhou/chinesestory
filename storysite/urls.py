@@ -19,8 +19,8 @@ from storysite import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('/', views.homepage),
-    path('/admin/', views.adminlogin),
-    path('/logout/', views.adminlogout),
-    path('/createnotice/', views.createnotice),
+    path('', views.homepage),
+    path('admin/', views.adminlogin),
+    path('logout/', views.adminlogout),
+    path('createnotice/', views.createnotice),
 ]
