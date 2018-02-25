@@ -3,6 +3,9 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
+from datetime import datetime
+import json
+import os.path
 from .forms import NoticeForm
 
 DistrictNames = {
@@ -12,7 +15,7 @@ DistrictNames = {
     'cdnadmin': 'CDN',
 }
 
-StoryPlaces = { 
+StoryVenues = { 
     'Brossard': 'Bibliothèque de Brossard (Brossard图书馆儿童活动区)',
     'Longueuil': 'Bibliothèque Georges-Dor',
     'CDN': 'CDN图书馆儿童活动室（地下一层）',
@@ -64,25 +67,61 @@ def adminlogout(request):
 def createnotice(request):
     context = {}
     district_name = 'Brossard'
-    default_notice = set_default_notice(district_name)
-    context['notice_data'] = default_notice
-    notice_form = NoticeForm()
-    context['notice_form'] = notice_form
-    return render(request, 'createnotice.html', context)
+
+    if request.POST:
+        notice_form = NoticeForm(data=request.POST)
+        if notice_form.is_valid():
+            save_notice_file(district_name, notice_form)
+            return render(request, 'adminlogin.html', context)
+        else:
+            return render(request, 'adminlogin.html', context)
+
+    else:
+        notice_form = NoticeForm()
+        # setting default notice data
+        notice_form.fields['story_size'].initial = 20
+        notice_form.fields['story_venue'].initial = StoryVenues[district_name]
+        notice_form.fields['story_address'].initial = StoryAddresses[district_name]
+        notice_form.fields['story_activity_1'].initial = 'ni hao ge'
+        context['notice_form'] = notice_form
+        return render(request, 'createnotice.html', context)
 
 
-def set_default_notice(district_name):
-    default_notice = {}
+def save_notice_file(district_name, notice_form):
+    json_data = {}
+    notife_file_path = os.path.join(settings.BASE_DIR, 'static/noticefiles/')
+    story_date = notice_form.fields['story_date'].strftime('%Y-%m-%d')
+    filename = notice_file_path + district_name + '-' + story_date + '.json' 
+    json_data['district_name'] = district_name
+    json_data['story_theme'] = notice_form.fields['story_theme']
+    json_data['story_date'] = notice_form.fields['story_date']
+    json_data['story_time'] = notice_form.fields['story_time']
+    json_data['story_host'] = notice_form.fields['story_host']
+    json_data['story_size'] = notice_form.fields['story_size']
+    json_data['story_venue'] = notice_form.fields['story_venue']
+    json_data['story_address'] = notice_form.fields['story_address']
+    json_data['reg_date'] = notice_form.fields['reg_date']
+    json_data['reg_time'] = notice_form.fields['reg_time']
+    json_data['story_activity_1'] = notice_form.fields['story_activity_1']
+    json_data['story_activity_2'] = notice_form.fields['story_activity_2']
+    json_data['story_activity_3'] = notice_form.fields['story_activity_3']
+    json_data['story_activity_4'] = notice_form.fields['story_activity_4']
+    json_data['story_activity_5'] = notice_form.fields['story_activity_5']
 
-    if district_name not in ['Brossard', 'Longueuil', 'Montreal', 'CDN']:
-        return default_notice
+    try:
+        with open(filename, 'w') as json_file:
+            json.dump(json_data, json_file)
+            json_file.close()
+    except:
+        print('Error writing JSON file.')
 
-    default_notice['story_maxsize'] = 20
-    default_notice['story_place'] = StoryPlaces[district_name]
-    default_notice['story_address'] = StoryAddresses[district_name]
-    default_notice['story_activity_1'] = 'ni hao ge'
-
-
-    return default_notice
-
-
+def read_notice_file(filename):
+    notife_file_path = os.path.join(settings.BASE_DIR, 'static/notiefiles/')
+    try:
+        with open(notice_file_path + filename, 'r') as json_file:
+            json_data = json.load(json_file)
+            json_file.close()
+            return json_data
+    except:
+        print('Error reading JSON file.')
+            
