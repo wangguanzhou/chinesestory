@@ -123,3 +123,4 @@ STATICFILES_DIRS = [
 
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '/var/www/chinesestory/static/'
