@@ -64,7 +64,7 @@ def adminlogout(request):
     return redirect('/chinesestory/admin/')
 
 
-# @login_required(login_url='/chinesestory/admin/')
+@login_required(login_url='/chinesestory/admin/')
 def createnotice(request):
     context = {}
     district_name = 'Brossard'
@@ -90,7 +90,7 @@ def createnotice(request):
 
 def save_notice_file(district_name, notice_form):
     json_data = {}
-    notife_file_path = os.path.join(settings.BASE_DIR, 'static/noticefiles/')
+    notife_file_path = os.path.join(settings.STATIC_ROOT, 'noticefiles/')
     story_date = notice_form.fields['story_date'].strftime('%Y-%m-%d')
     filename = notice_file_path + district_name + '-' + story_date + '.json' 
     json_data['district_name'] = district_name
@@ -117,7 +117,7 @@ def save_notice_file(district_name, notice_form):
         print('Error writing JSON file.')
 
 def read_notice_file(filename):
-    notife_file_path = os.path.join(settings.BASE_DIR, 'static/notiefiles/')
+    notife_file_path = os.path.join(settings.STATIC_ROOT, 'notiefiles/')
     try:
         with open(notice_file_path + filename, 'r') as json_file:
             json_data = json.load(json_file)
