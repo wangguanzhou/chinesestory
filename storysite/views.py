@@ -37,7 +37,7 @@ def adminlogin(request):
 
     if request.user.is_authenticated:
         context['authenticated'] = True
-        admin_name = request.user.usename
+        admin_name = request.user.username
         context['district_name'] = DistrictNames[admin_name]
         return render(request, 'admin.html', context)
 
