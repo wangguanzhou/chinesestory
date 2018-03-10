@@ -48,6 +48,7 @@ def adminlogin(request):
         if user is not None:
             context['authenticated'] = True
             context['district_name'] = DistrictNames[admin_name]
+            login(request, user)
         else:
             context['authenticated'] = False
             context['login_error'] = True
