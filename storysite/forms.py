@@ -23,7 +23,8 @@ class NoticeForm(forms.Form):
             )
 
     story_time = forms.TimeField(
-            required=True,
+            required=False,
+            input_formats=['%H%M', '%I:%M %p', '%I:%M%p'],
             widget=forms.TextInput(
                 attrs={ 
                     'placeholder': 'Time'
@@ -54,7 +55,7 @@ class NoticeForm(forms.Form):
             )
 
     story_host = forms.CharField(
-            required=True,
+            required=False,
             label="Story Host",
             max_length=10,
             widget=forms.TextInput(
@@ -78,7 +79,7 @@ class NoticeForm(forms.Form):
 
 
     reg_date = forms.DateField(
-            required=True,
+            required=False,
             label="Registration Date/Time",
             widget=forms.TextInput(
                 attrs={ 
@@ -88,8 +89,9 @@ class NoticeForm(forms.Form):
             )
 
     reg_time = forms.TimeField(
-            required=True,
+            required=False,
             label="Registration Time",
+            input_formats=['%H%M', '%I:%M %p', '%I:%M%p'],
             widget=forms.TextInput(
                 attrs={ 
                     'placeholder': 'Reg Time'
@@ -107,7 +109,7 @@ class NoticeForm(forms.Form):
             )
 
     story_activity_2 = forms.CharField(
-            required=True,
+            required=False,
             label="Story Activity 2",
             widget=forms.Textarea(
                 attrs={ 
@@ -117,7 +119,7 @@ class NoticeForm(forms.Form):
             )
 
     story_activity_3 = forms.CharField(
-            required=True,
+            required=False,
             label="Story Activity 3",
             widget=forms.Textarea(
                 attrs={ 
@@ -127,7 +129,7 @@ class NoticeForm(forms.Form):
             )
 
     story_activity_4 = forms.CharField(
-            required=True,
+            required=False,
             label="Story Activity 4",
             widget=forms.Textarea(
                 attrs={ 
@@ -137,7 +139,7 @@ class NoticeForm(forms.Form):
             )
 
     story_activity_5 = forms.CharField(
-            required=True,
+            required=False,
             label="Story Activity 5",
             widget=forms.Textarea(
                 attrs={ 

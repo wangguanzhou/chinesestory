@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
-from datetime import datetime
+from django.conf import settings
+from datetime import datetime, date
 import json
 import os.path
 from .forms import NoticeForm
@@ -70,12 +71,13 @@ def createnotice(request):
     district_name = 'Brossard'
 
     if request.POST:
-        notice_form = NoticeForm(data=request.POST)
+        notice_form = NoticeForm(request.POST)
         if notice_form.is_valid():
-            save_notice_file(district_name, notice_form)
-            return render(request, 'admin.html', context)
+            notice_data = notice_form.cleaned_data
+            save_notice_file(district_name, notice_data)
+            return render(request, 'base.html', {'notice_form': notice_form})
         else:
-            return render(request, 'admin.html', context)
+            return render(request, 'base.html', {'notice_form': notice_form})
 
     else:
         notice_form = NoticeForm()
@@ -88,26 +90,26 @@ def createnotice(request):
         return render(request, 'createnotice.html', context)
 
 
-def save_notice_file(district_name, notice_form):
+def save_notice_file(district_name, notice_data):
     json_data = {}
-    notife_file_path = os.path.join(settings.BASE_DIR, 'static/noticefiles/')
-    story_date = notice_form.fields['story_date'].strftime('%Y-%m-%d')
+    notice_file_path = os.path.join(settings.BASE_DIR, 'static/noticefiles/')
+    story_date = notice_data['story_date'].strftime('%Y-%m-%d')
     filename = notice_file_path + district_name + '-' + story_date + '.json' 
     json_data['district_name'] = district_name
-    json_data['story_theme'] = notice_form.fields['story_theme']
-    json_data['story_date'] = notice_form.fields['story_date']
-    json_data['story_time'] = notice_form.fields['story_time']
-    json_data['story_host'] = notice_form.fields['story_host']
-    json_data['story_size'] = notice_form.fields['story_size']
-    json_data['story_venue'] = notice_form.fields['story_venue']
-    json_data['story_address'] = notice_form.fields['story_address']
-    json_data['reg_date'] = notice_form.fields['reg_date']
-    json_data['reg_time'] = notice_form.fields['reg_time']
-    json_data['story_activity_1'] = notice_form.fields['story_activity_1']
-    json_data['story_activity_2'] = notice_form.fields['story_activity_2']
-    json_data['story_activity_3'] = notice_form.fields['story_activity_3']
-    json_data['story_activity_4'] = notice_form.fields['story_activity_4']
-    json_data['story_activity_5'] = notice_form.fields['story_activity_5']
+    json_data['story_theme'] = notice_data['story_theme']
+    json_data['story_date'] = notice_data['story_date'].strftime('%Y-%m-%d')
+    json_data['story_time'] = notice_data['story_time'].strftime('%I:%M %p')
+    json_data['story_host'] = notice_data['story_host']
+    json_data['story_size'] = notice_data['story_size']
+    json_data['story_venue'] = notice_data['story_venue']
+    json_data['story_address'] = notice_data['story_address']
+    json_data['reg_date'] = notice_data['reg_date'].strftime('%Y-%m-%d')
+    json_data['reg_time'] = notice_data['reg_time'].strftime('%I:%M %p')
+    json_data['story_activity_1'] = notice_data['story_activity_1']
+    json_data['story_activity_2'] = notice_data['story_activity_2']
+    json_data['story_activity_3'] = notice_data['story_activity_3']
+    json_data['story_activity_4'] = notice_data['story_activity_4']
+    json_data['story_activity_5'] = notice_data['story_activity_5']
 
     try:
         with open(filename, 'w') as json_file:
