@@ -8,27 +8,43 @@
   <div class="ui two column centered grid">
     <div class="column center aligned">
 
-      {% if authenticated %}
+      {% if user.is_authenticated %}
       <div class="ui message">
         You have logged in as {{ district_name }}. <a
           href="/chinesestory/logout/">Logout</a>
       </div>
       <div class="ui segment">
-        <div class="ui vertical labled buttons">
+        <div class="fluid ui vertical labled buttons">
           <a href="/chinesestory/createnotice">
           <div class="ui labeled icon button">
-            <i class="clone icon"></i> create story notice.
-          </div>
-          </a>
-
-          <div class="ui hidden divider"></div>
-          
-          <a href="/chinesestory/modifynotice/">
-          <div class="ui labeled icon button">
-            <i class="edit icon"></i> Modify or delete story notice.
+            <i class="clone icon"></i> create new story notice.
           </div>
           </a>
         </div>
+        <div class="ui divider hidden"></div>
+        <div>
+          <table class="ui basic table">
+            <thead>
+              {% if not active_notice_exist %} 
+                <tr><th class="center aligned" colspan="3">You have no active notice </th></tr>
+              {% else %}
+                <tr><th class="center aligned" colspan="3">You have created {{ active_notice_num }} active notice </th></tr>
+              {% endif %}
+            </thead>
+            <tbody>
+              {% if active_notice_exist %} 
+              {% for notice in active_notice %}
+                <tr>
+                  <td class="collapsing">{{ notice.story_date }}</td>
+                  <td>{{ notice.story_theme }}</td>
+                  <td class="collapsing">[<a href=""> modify </a>]  [<a href="">delete</a>]</td>
+                </tr>
+              {% endfor %}
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+
       </div>
 
       {% else %}

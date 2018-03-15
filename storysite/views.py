@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.conf import settings
-from datetime import datetime, date
+from datetime import datetime
 import json
 import os.path
 from .forms import NoticeForm
@@ -39,7 +39,16 @@ def adminlogin(request):
     if request.user.is_authenticated:
         context['authenticated'] = True
         admin_name = request.user.username
-        context['district_name'] = DistrictNames[admin_name]
+        district_name = DistrictNames[admin_name]
+        context['district_name'] = district_name
+        active_notice = get_active_notice(district_name)
+        if len(active_notice) > 0:
+            context['active_notice_exist'] = True
+            context['active_notice_num'] = len(active_notice)
+            context['active_notice'] = active_notice
+        else:
+            context['active_notice_exist'] = False
+
         return render(request, 'admin.html', context)
 
     elif request.POST:
@@ -75,9 +84,13 @@ def createnotice(request):
         if notice_form.is_valid():
             notice_data = notice_form.cleaned_data
             save_notice_file(district_name, notice_data)
-            return render(request, 'base.html', {'notice_form': notice_form})
+            active_notice = get_active_notice(district_name)
+            if len(active_notice) > 0:
+                context['active_notice_exist'] = True
+                context['active_notice'] = active_notice
+            return render(request, 'admin.html', context)
         else:
-            return render(request, 'base.html', {'notice_form': notice_form})
+            return render(request, 'admin.html', {})
 
     else:
         notice_form = NoticeForm()
@@ -119,12 +132,23 @@ def save_notice_file(district_name, notice_data):
         print('Error writing JSON file.')
 
 def read_notice_file(filename):
-    notife_file_path = os.path.join(settings.BASE_DIR, 'static/notiefiles/')
+    notice_file_path = os.path.join(settings.BASE_DIR, 'static/noticefiles/')
     try:
         with open(notice_file_path + filename, 'r') as json_file:
             json_data = json.load(json_file)
             json_file.close()
-            return json_data
+        return json_data
     except:
-        print('Error reading JSON file.')
-            
+        print('Error reading notice file.')
+
+def get_active_notice(district):
+    notice_file_path = os.path.join(settings.BASE_DIR, 'static/noticefiles/')
+    active_notice = []
+    for notice_file in os.listdir(notice_file_path):
+        if notice_file.endswith('.json'):
+            notice_data = read_notice_file(notice_file)
+            story_datetime = notice_data['story_date'] + ' ' + notice_data['story_time']
+            if district == notice_data['district_name'] and datetime.strptime(story_datetime, '%Y-%m-%d %I:%M %p') > datetime.now():
+                active_notice.append({'story_date': notice_data['story_date'], 'story_theme': notice_data['story_theme']})
+
+    return active_notice

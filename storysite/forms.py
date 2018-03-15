@@ -4,7 +4,7 @@ class NoticeForm(forms.Form):
     story_theme = forms.CharField(
             required=True,
             label="Story Theme",
-            max_length=40,
+            max_length=60,
             widget=forms.TextInput(
                 attrs={ 
                     'placeholder': ''
@@ -23,7 +23,7 @@ class NoticeForm(forms.Form):
             )
 
     story_time = forms.TimeField(
-            required=False,
+            required=True,
             input_formats=['%H%M', '%I:%M %p', '%I:%M%p'],
             widget=forms.TextInput(
                 attrs={ 
@@ -55,7 +55,7 @@ class NoticeForm(forms.Form):
             )
 
     story_host = forms.CharField(
-            required=False,
+            required=True,
             label="Story Host",
             max_length=10,
             widget=forms.TextInput(
@@ -79,7 +79,7 @@ class NoticeForm(forms.Form):
 
 
     reg_date = forms.DateField(
-            required=False,
+            required=True,
             label="Registration Date/Time",
             widget=forms.TextInput(
                 attrs={ 
@@ -89,7 +89,7 @@ class NoticeForm(forms.Form):
             )
 
     reg_time = forms.TimeField(
-            required=False,
+            required=True,
             label="Registration Time",
             input_formats=['%H%M', '%I:%M %p', '%I:%M%p'],
             widget=forms.TextInput(
