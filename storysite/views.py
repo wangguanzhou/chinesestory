@@ -37,7 +37,6 @@ def adminlogin(request):
     context = {}
 
     if request.user.is_authenticated:
-        context['authenticated'] = True
         admin_name = request.user.username
         district_name = DistrictNames[admin_name]
         context['district_name'] = district_name
@@ -77,7 +76,9 @@ def adminlogout(request):
 @login_required(login_url='/chinesestory/admin/')
 def createnotice(request):
     context = {}
-    district_name = 'Brossard'
+    admin_name = request.user.username
+    district_name = DistrictNames[admin_name]
+    context['district_name'] = district_name
 
     if request.POST:
         notice_form = NoticeForm(request.POST)
@@ -101,6 +102,42 @@ def createnotice(request):
         notice_form.fields['story_activity_1'].initial = 'ni hao ge'
         context['notice_form'] = notice_form
         return render(request, 'createnotice.html', context)
+
+@login_required(login_url='/chinesestory/admin/')
+def modifynotice(request):
+    context = {}
+    if request.GET:
+        district_name = request.GET['district']
+        story_date = request.GET['date']
+        notice_file = district_name + '-' + story_date + '.json'
+        notice_data = read_notice_file(notice_file)
+
+        notice_form = NoticeForm()
+        notice_form.fields['story_theme'].initial = notice_data['story_theme']
+        notice_form.fields['story_date'].initial = datetime.strptime(notice_data['story_date'], '%Y-%m-%d')
+        notice_form.fields['story_time'].initial = datetime.strptime(notice_data['story_time'], '%I:%M %p')
+        notice_form.fields['story_host'].initial = notice_data['story_host']
+        notice_form.fields['story_size'].initial = notice_data['story_size']
+        notice_form.fields['story_venue'].initial = notice_data['story_venue']
+        notice_form.fields['story_address'].initial = notice_data['story_address']
+        notice_form.fields['reg_date'].initial = datetime.strptime(notice_data['reg_date'], '%Y-%m-%d')
+        notice_form.fields['reg_time'].initial = datetime.strptime(notice_data['reg_time'], '%I:%M %p')
+ 
+        context['notice_form'] = notice_form
+        return render(request, 'createnotice.html', context)
+    else:
+        return render(request, 'base.html', {})
+
+@login_required(login_url='/chinesestory/admin/')
+def deletenotice(request):
+    if request.GET:
+        district_name = request.GET['district']
+        story_date = request.GET['date']
+
+        return render(request, 'base.html', {'district': district_name,
+            'story_date': story_date})
+    else:
+        return render(request, 'base.html', {})
 
 
 def save_notice_file(district_name, notice_data):

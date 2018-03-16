@@ -23,4 +23,6 @@ urlpatterns = [
     path('chinesestory/admin/', views.adminlogin),
     path('chinesestory/logout/', views.adminlogout),
     path('chinesestory/createnotice/', views.createnotice),
+    path('chinesestory/modifynotice/', views.modifynotice),
+    path('chinesestory/deletenotice/', views.deletenotice),
 ]
