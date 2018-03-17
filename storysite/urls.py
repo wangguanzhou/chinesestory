@@ -19,10 +19,11 @@ from storysite import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('chinesestory', views.homepage),
+    path('chinesestory/', views.homepage),
     path('chinesestory/admin/', views.adminlogin),
     path('chinesestory/logout/', views.adminlogout),
     path('chinesestory/createnotice/', views.createnotice),
     path('chinesestory/modifynotice/', views.modifynotice),
     path('chinesestory/deletenotice/', views.deletenotice),
+    path('chinesestory/shownotice/', views.shownotice),
 ]

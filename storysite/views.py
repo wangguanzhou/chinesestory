@@ -1,11 +1,11 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
-from django.conf import settings
-from datetime import datetime
-import json
+from django.shortcuts import render 
+from django.http import HttpResponse 
+from django.contrib.auth import authenticate, login, logout 
+from django.contrib.auth.decorators import login_required 
+from django.shortcuts import redirect 
+from django.conf import settings 
+from datetime import datetime 
+import json 
 import os.path
 from .forms import NoticeForm
 
@@ -31,7 +31,25 @@ StoryAddresses = {
 }
 
 def homepage(request):
-    return render(request, 'homepage.html', {})
+    active_notices = {}
+
+    active_notices['Brossard'] = get_active_notice('Brossard')
+    if len(active_notices['Brossard']) > 0:
+        active_notices['Active_Brossard'] = True
+
+    active_notices['Longueuil'] = get_active_notice('Longueuil')
+    if len(active_notices['Longueuil']) > 0:
+        active_notices['Active_Longueuil'] = True
+
+    active_notices['CDN'] = get_active_notice('CDN')
+    if len(active_notices['CDN']) > 0:
+        active_notices['Active_CDN'] = True
+
+    active_notices['Montreal'] = get_active_notice('Montreal')
+    if len(active_notices['Montreal']) > 0:
+        active_notices['Active_Montreal'] = True
+
+    return render(request, 'homepage.html', {'active_notices': active_notices})
 
 def adminlogin(request):
     context = {}
@@ -72,6 +90,10 @@ def adminlogout(request):
     logout(request)
     return redirect('/chinesestory/admin/')
 
+
+def shownotice(request):
+
+    return render(request, 'notice.html', {})
 
 @login_required(login_url='/chinesestory/admin/')
 def createnotice(request):
@@ -126,18 +148,35 @@ def modifynotice(request):
         context['notice_form'] = notice_form
         return render(request, 'createnotice.html', context)
     else:
-        return render(request, 'base.html', {})
+        admin_name = request.user.username
+        district_name = DistrictNames[admin_name]
+        context['district_name'] = district_name
+        active_notice = get_active_notice(district_name)
+        if len(active_notice) > 0:
+            context['active_notice_exist'] = True
+            context['active_notice'] = active_notice
+        return render(request, 'admin.html', context)
+ 
 
 @login_required(login_url='/chinesestory/admin/')
 def deletenotice(request):
+    context = {}
     if request.GET:
         district_name = request.GET['district']
         story_date = request.GET['date']
 
-        return render(request, 'base.html', {'district': district_name,
-            'story_date': story_date})
-    else:
-        return render(request, 'base.html', {})
+        notice_file = district_name + '-' + story_date + '.json'
+        delete_notice_file(notice_file)
+        
+    admin_name = request.user.username
+    district_name = DistrictNames[admin_name]
+    context['district_name'] = district_name
+    active_notice = get_active_notice(district_name)
+    if len(active_notice) > 0:
+        context['active_notice_exist'] = True
+        context['active_notice'] = active_notice
+    return render(request, 'admin.html', context)
+ 
 
 
 def save_notice_file(district_name, notice_data):
@@ -178,6 +217,13 @@ def read_notice_file(filename):
     except:
         print('Error reading notice file.')
 
+def delete_notice_file(filename):
+    notice_file_path = os.path.join(settings.BASE_DIR, 'static/noticefiles/')
+    try:
+        os.remove(notice_file_path + filename)
+    except:
+        print('Error deleting notice file.')
+ 
 def get_active_notice(district):
     notice_file_path = os.path.join(settings.BASE_DIR, 'static/noticefiles/')
     active_notice = []
@@ -186,6 +232,6 @@ def get_active_notice(district):
             notice_data = read_notice_file(notice_file)
             story_datetime = notice_data['story_date'] + ' ' + notice_data['story_time']
             if district == notice_data['district_name'] and datetime.strptime(story_datetime, '%Y-%m-%d %I:%M %p') > datetime.now():
-                active_notice.append({'story_date': notice_data['story_date'], 'story_theme': notice_data['story_theme']})
+                active_notice.append({'story_date': notice_data['story_date'], 'story_theme': notice_data['story_theme'], 'story_host': notice_data['story_host']})
 
     return active_notice

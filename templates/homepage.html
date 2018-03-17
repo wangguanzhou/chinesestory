@@ -4,6 +4,9 @@
 {% block home-page %}
 
 		<div class="ui storynotice text container">
+
+    {% if not active_notices.Active_Brossard and not active_notices.Active_Longueuil and not active_notices.Active_CDN and not active_notices.Active_Montreal %}
+
 			<div class="ui icon message">
 				<i class="file text outline icon"></i>
 				<div class="content">
@@ -11,8 +14,34 @@
 							目前没有新的故事会公告。
 						</div>
 						<p>请稍后查看。</p>
+
 				</div>
 			</div>
+    
+    {% endif %}
+
+    
+    {% if active_notices.Active_Brossard %}
+
+      <div class="ui icon message">
+				<div class="content">
+						<div class="header">
+              Brossard new story gathering notices
+						</div>
+            <div class="ui divider"></div>
+            {% for notice in active_notices.Brossard %}
+            <p> <i class="file text outline icon"></i>
+            <a href="/chinesestory/shownotice/?district=Brossard&date={{ notice.story_date}}">
+              [{{ notice.story_date }}] -- {{ notice.story_theme }} by {{ notice.story_host }} 
+            </a></p>
+            {% endfor %}
+
+				</div>
+			</div>
+    {% endif %}
+    
+
+
 		</div>
 				
 		<div class="ui text container">
