@@ -5,15 +5,94 @@
 
 		<div class="ui storynotice text container">
 
+      <div class="ui very padded segment">
+        <div class="ui header center aligned">
+          {{ notice_data.district_name }} new story gathering notices {{ notice_data.story_date }}
+        </div>
+        <div class="ui divider"></div>
+        {% if not registration_started %}
+          <div class="ui icon message">
+            <i class="clock icon"></i>
+            <div class="content">
+              <p>The registration starts on {{notice_data.reg_date}}, {{notice_data.reg_time}}</p>
+            </div>
+          </div>
 
-      <div class="ui icon message">
-				<div class="content">
-						<div class="header">
-              Brossard new story gathering notices
-						</div>
-            <div class="ui divider"></div>
+        {% else %}
 
-				</div>
+          <div class="ui segment">
+            <p style="font-size: 1.2em;">You can now register for the meetup.</p>
+
+            <form class="ui form" action="/chinesestory/register/" method="POST">
+              {% csrf_token %}
+              <div class="two fields">
+                <div class="field">
+                  <label>{{ reg_form.parent_name.label }}</label>  
+                  {{ reg_form.parent_name }}
+                </div>
+                <div class="field">
+                  <label>{{ reg_form.child_name_1.label }}</label>  
+                  {{ reg_form.child_name_1 }}
+                </div>
+              </div>
+              <div class="two fields">
+                <div class="field">
+                  <label>{{ reg_form.child_name_2.label }}</label>  
+                  {{ reg_form.child_name_2 }}
+                </div>
+                <div class="field">
+                  <label>{{ reg_form.child_name_3.label }}</label>  
+                  {{ reg_form.child_name_3 }}
+                </div>
+              </div>
+
+              <button class="ui teal fluid button" type="submit">Register Now</button>
+
+            </form>
+
+          </div>
+        
+        {% endif %}
+            
+        <div class="ui row" style="font-size: 1.2em">
+          <table class="ui very basic table">
+            <tr> <td class="collapsing">Story Theme</td> <td>{{notice_data.story_theme}}</td></tr>
+            <tr> <td class="collapsing">Story Host</td> <td>{{notice_data.story_host}}</td></tr>
+            <tr> <td class="collapsing">Story time</td> <td>{{notice_data.story_date}}, {{notice_data.story_time}}</td></tr>
+            <tr> <td class="collapsing">Story Venue</td> <td>{{notice_data.story_venue}}</td></tr>
+            <tr> <td class="collapsing">Story Address</td> <td>{{notice_data.story_address}}</td></tr>
+            <tr> <td class="collapsing"></td> <td></td></tr>
+          </table>
+        </div>
+        <div class="ui row" style="font-size: 1.2em">
+          <div class="ui grid">
+            <div class="ten wide column">
+            <p>Activity 1<p>
+            <p>{{notice_data.story_activity_1}}</p>
+            </div>
+            <div class="six wide column">
+            <p> picture here </p>
+            </div>
+
+            <div class="ten wide column">
+            <p>Activity 1<p>
+            <p>{{notice_data.story_activity_1}}</p>
+            </div>
+            <div class="six wide column">
+            <p> picture here </p>
+            </div>
+
+            <div class="ten wide column">
+            <p>Activity 3<p>
+            <p>{{notice_data.story_activity_1}}</p>
+            </div>
+            <div class="six wide column">
+            <p> picture here </p>
+            </div>
+
+          </div>
+        </div>
+
 			</div>
     
 

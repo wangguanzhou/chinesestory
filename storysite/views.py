@@ -7,7 +7,7 @@ from django.conf import settings
 from datetime import datetime 
 import json 
 import os.path
-from .forms import NoticeForm
+from .forms import NoticeForm, RegistrationForm
 
 DistrictNames = {
     'bsdadmin': 'Brossard',
@@ -90,10 +90,38 @@ def adminlogout(request):
     logout(request)
     return redirect('/chinesestory/admin/')
 
+def register(request):
+    if request.POST:
+        reg_form = RegistrationForm(request.POST)
+        if reg_form.is_valid():
+            reg_data = reg_form.cleaned_data
+        else:
+            reg_data = {}
+
+        return render(request, 'base.html', {'reg_data': reg_data})
+    else:
+        return redirect('/chinesestory/')
 
 def shownotice(request):
+    context = {}
+    if request.GET:
+        district_name = request.GET['district']
+        story_date = request.GET['date']
+        notice_file = district_name + '-' + story_date + '.json'
+        notice_data = read_notice_file(notice_file)
+        context['notice_data'] = notice_data
+        reg_datetime = datetime.strptime(notice_data['reg_date'] + ' ' + notice_data['reg_time'], '%Y-%m-%d %I:%M %p')
+        if reg_datetime <= datetime.now():
+            context['registration_started'] = True
+            reg_form = RegistrationForm()
+            context['reg_form'] = reg_form
+        else:
+            context['registration_started'] = False
 
-    return render(request, 'notice.html', {})
+        return render(request, 'notice.html', context)
+    else:
+        return redirect('/chinesestory/')
+   
 
 @login_required(login_url='/chinesestory/admin/')
 def createnotice(request):

@@ -1,5 +1,51 @@
 from django import forms
 
+class RegistrationForm(forms.Form):
+    parent_name = forms.CharField(
+            required=True,
+            label="Parent name",
+            max_length=40,
+            widget=forms.TextInput(
+                attrs={ 
+                    'placeholder': ''
+                    }
+                )
+            )
+
+    child_name_1 = forms.CharField(
+            required=True,
+            label="Child-1 name",
+            max_length=40,
+            widget=forms.TextInput(
+                attrs={ 
+                    'placeholder': ''
+                    }
+                )
+            )
+
+    child_name_2 = forms.CharField(
+            required=False,
+            label="Child-2 name",
+            max_length=40,
+            widget=forms.TextInput(
+                attrs={ 
+                    'placeholder': ''
+                    }
+                )
+            )
+
+    child_name_3 = forms.CharField(
+            required=False,
+            label="Child-3 name",
+            max_length=40,
+            widget=forms.TextInput(
+                attrs={ 
+                    'placeholder': ''
+                    }
+                )
+            )
+
+
 class NoticeForm(forms.Form):
     story_theme = forms.CharField(
             required=True,

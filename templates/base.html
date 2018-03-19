@@ -30,12 +30,12 @@
 			}
 
 			.maincontainer {
-				padding: 4em 0em;
+				padding: 2em 0em;
 			}
 
 			.storynotice {
 				min-height: 300px;
-				padding: 4em 0em;
+				padding: 2em 0em;
 			}
 
 			.storynotice .message {
@@ -46,6 +46,9 @@
 				padding: 2em 2em;
 			}
 
+      .ui.segment.hidden {
+        display: none;
+      }
 		
 		</style>
 
@@ -79,7 +82,7 @@
 			{% block show-notice %}
 			{% endblock %}
 
-
+      {{ reg_data }}
 
 		</div>
 		
