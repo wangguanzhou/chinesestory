@@ -73,9 +73,18 @@ def adminlogin(request):
         admin_pass = request.POST['admin-pass']
         user = authenticate(username=admin_name, password=admin_pass)
         if user is not None:
-            context['authenticated'] = True
-            context['district_name'] = DistrictNames[admin_name]
             login(request, user)
+            context['authenticated'] = True
+            district_name = DistrictNames[admin_name]
+            context['district_name'] = district_name
+            active_notice = get_active_notice(district_name)
+            if len(active_notice) > 0:
+                context['active_notice_exist'] = True
+                context['active_notice_num'] = len(active_notice)
+                context['active_notice'] = active_notice
+            else:
+                context['active_notice_exist'] = False
+
         else:
             context['authenticated'] = False
             context['login_error'] = True
