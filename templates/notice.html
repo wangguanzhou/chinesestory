@@ -22,7 +22,7 @@
           <div class="ui segment">
             <p style="font-size: 1.2em;">You can now register for the meetup.</p>
 
-            <form class="ui form" action="/chinesestory/register/" method="POST">
+            <form class="ui form" action="/chinesestory/register/?district={{notice_data.district_name}}&date={{notice_data.story_date}}" method="POST">
               {% csrf_token %}
               <div class="two fields">
                 <div class="field">

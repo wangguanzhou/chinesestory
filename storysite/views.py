@@ -101,13 +101,17 @@ def adminlogout(request):
 
 def register(request):
     if request.POST:
+        district_name = request.GET['district']
+        story_date = request.GET['date']
         reg_form = RegistrationForm(request.POST)
         if reg_form.is_valid():
             reg_data = reg_form.cleaned_data
+            save_reg_data(district_name, story_date, reg_data)
+
         else:
             reg_data = {}
 
-        return render(request, 'base.html', {'reg_data': reg_data})
+        return render(request, 'base.html', {'reg_data': reg_data, 'district': district_name})
     else:
         return redirect('/chinesestory/')
 
@@ -215,6 +219,51 @@ def deletenotice(request):
     return render(request, 'admin.html', context)
  
 
+def save_reg_data(district_name, story_date, reg_data):
+    reg_record = {}
+    reg_path = os.path.join(settings.BASE_DIR, 'static/noticefiles/')
+    reg_file = reg_path + district_name + '-' + story_date + '.reg'
+    if os.path.isfile(reg_file):
+        reg_record = read_reg_data(district_name, story_date)
+        reg_record['num_of_reg'] += 1
+        if len(reg_data['child_name_2']) > 1:
+            reg_record['num_of_reg'] += 1
+        if len(reg_data['child_name_3']) > 1:
+            reg_record['num_of_reg'] += 1
+        reg_record['reg_list'].append(reg_data)
+ 
+    else:
+        reg_record['num_of_reg'] = 1
+        if len(reg_data['child_name_2']) > 1:
+            reg_record['num_of_reg'] += 1
+        if len(reg_data['child_name_3']) > 1:
+            reg_record['num_of_reg'] += 1
+        reg_record['reg_list'] = []
+        reg_record['reg_list'].append(reg_data)
+        
+    try:
+        with open(reg_file, 'w') as json_file:
+            json.dump(reg_record, json_file)
+            json_file.close()
+    except:
+        print('Error writing JSON file.')
+
+
+def read_reg_data(district_name, story_date):
+    reg_path = os.path.join(settings.BASE_DIR, 'static/noticefiles/')
+    reg_file = reg_path + district_name + '-' + story_date + '.reg'
+    if os.path.isfile(reg_file):
+        try:
+            with open(reg_file, 'r') as json_file:
+                reg_record = json.load(json_file)
+                json_file.close()
+            return reg_record
+        except:
+            print('Error reading registration file.')
+    else:
+        print('The registration file doesnt exist')
+
+
 
 def save_notice_file(district_name, notice_data):
     json_data = {}
@@ -246,13 +295,17 @@ def save_notice_file(district_name, notice_data):
 
 def read_notice_file(filename):
     notice_file_path = os.path.join(settings.BASE_DIR, 'static/noticefiles/')
-    try:
-        with open(notice_file_path + filename, 'r') as json_file:
-            json_data = json.load(json_file)
-            json_file.close()
-        return json_data
-    except:
-        print('Error reading notice file.')
+    notice_file = notice_file_path + filename
+    if os.path.isfile(notice_file):
+        try:
+            with open(notice_file, 'r') as json_file:
+                json_data = json.load(json_file)
+                json_file.close()
+            return json_data
+        except:
+            print('Error reading notice file.')
+    else:
+        print('The notice file doesnt exist')
 
 def delete_notice_file(filename):
     notice_file_path = os.path.join(settings.BASE_DIR, 'static/noticefiles/')
