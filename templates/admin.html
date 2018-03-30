@@ -10,7 +10,7 @@
 
       {% if user.is_authenticated %}
       <div class="ui message">
-        You have logged in as {{ district_name }}. <a
+        您已经以 {{ district_name }} 管理员登录。 <a
           href="/chinesestory/logout/">Logout</a>
       </div>
       <div class="ui segment">
@@ -26,9 +26,9 @@
           <table class="ui very basic table">
             <thead>
               {% if not active_notice_exist %} 
-                <tr><th class="center aligned" colspan="3">You have no active notice </th></tr>
+                <tr><th class="center aligned" colspan="3">当前没有新的活动通知。 </th></tr>
               {% else %}
-                <tr><th class="center aligned" colspan="3">You have created {{ active_notice_num }} active notice </th></tr>
+                <tr><th class="center aligned" colspan="3">您已经创建 {{ active_notice_num }} 个新的活动通知。 </th></tr>
               {% endif %}
             </thead>
             <tbody>
@@ -41,9 +41,9 @@
                 <tr>
                   <td></td>
                   <td class="collapsing">
-                    [<a href="/chinesestory/modifynotice/?district={{ district_name }}&date={{ notice.story_date }}"> modify </a>] -- 
-                    [<a href="/chinesestory/deletenotice/?district={{ district_name }}&date={{ notice.story_date }}"> delete </a>] -- 
-                    [<a href="/chinesestory/viewregistration/?district={{ district_name }}&date={{ notice.story_date }}"> view registration </a>]  
+                    [<a href="/chinesestory/modifynotice/?district={{ district_name }}&date={{ notice.story_date }}"> 修改 </a>] -- 
+                    [<a href="/chinesestory/deletenotice/?district={{ district_name }}&date={{ notice.story_date }}"> 删除 </a>] -- 
+                    [<a href="/chinesestory/viewregistration/?district={{ district_name }}&date={{ notice.story_date }}"> 查看报名信息 </a>]  
                   </td>
                 </tr>
               {% endfor %}
@@ -58,7 +58,7 @@
       {% if login_error %}
 
       <div class="ui warning message">
-        Login error. Please try again.
+        用户名或者密码错误，请重试。
       </div>
 
 

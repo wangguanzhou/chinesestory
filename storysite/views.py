@@ -110,11 +110,11 @@ def register(request):
             notice_data = read_notice_file(notice_file)
             current_reg = read_reg_data(district_name, story_date)
             if current_reg['num_of_reg'] >= notice_data['story_size']:
-                reg_result = {'reg_success': False, 'err_msg': 'The limit of number has been reached.' }
+                reg_result = {'reg_success': False, 'err_msg': '当前报名人数已经达到最大限制人数' }
                 return render(request, 'noticeresult.html', reg_result)
             for reg_record in current_reg['reg_list']:
                 if reg_data['parent_name'] == reg_record['parent_name']:
-                    reg_result = {'reg_success': False, 'err_msg': 'name ' + reg_data['parent_name'] + ' already exist.' }
+                    reg_result = {'reg_success': False, 'err_msg': '您的名字 ' + reg_data['parent_name'] + ' 已经报名，请勿重复报名' }
                     return render(request, 'noticeresult.html', reg_result)
 
             save_reg_data(district_name, story_date, reg_data)

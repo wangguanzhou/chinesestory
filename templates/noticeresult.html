@@ -6,7 +6,7 @@
 		<div class="ui center aligned segment">
       {% if reg_success %}
       <div class="ui large message">
-        <p>Your registration is successful.</p>
+        <p>您已经成功报名</p>
       </div>
 			<a href="/chinesestory/">
         <div class="ui button">return</div>
@@ -14,11 +14,10 @@
 
       {% else %}
       <div class="ui large message">
-        <p>Sorry, your registration is not successful.</p>
-        <p>{{ err_msg }}</p>
+        <p>对不起，{{ err_msg }}</p>
       </div>
 			<a href="/chinesestory/">
-        <div class="ui button">return</div>
+        <div class="ui button">返回</div>
       </a>
 
 

@@ -6,21 +6,21 @@
 		<div class="ui storynotice container">
 
         <div class="ui header center aligned">
-          {{ notice_data.district_name }} new story gathering notices {{ notice_data.story_date }}
+          {{ notice_data.district_name }} 故事会活动通知 {{ notice_data.story_date }}
         </div>
         <div class="ui divider"></div>
         {% if not registration_started %}
           <div class="ui icon message">
             <i class="clock icon"></i>
             <div class="content">
-              <p>The registration starts on {{notice_data.reg_date}}, {{notice_data.reg_time}}</p>
+              <p>报名启动时间 {{notice_data.reg_date}} 日 {{notice_data.reg_time}}</p>
             </div>
           </div>
 
         {% else %}
 
           <div class="ui segment">
-            <p style="font-size: 1.2em;">You can now register for the meetup.</p>
+            <p style="font-size: 1.2em;">您现在可以开始报名</p>
 
             <form class="ui form" action="/chinesestory/register/?district={{notice_data.district_name}}&date={{notice_data.story_date}}" method="POST">
               {% csrf_token %}
