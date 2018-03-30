@@ -106,12 +106,24 @@ def register(request):
         reg_form = RegistrationForm(request.POST)
         if reg_form.is_valid():
             reg_data = reg_form.cleaned_data
+            notice_file = district_name + '-' + story_date + '.json'
+            notice_data = read_notice_file(notice_file)
+            current_reg = read_reg_data(district_name, story_date)
+            if current_reg['num_of_reg'] >= notice_data['story_size']:
+                reg_result = {'reg_success': False, 'err_msg': 'The limit of number has been reached.' }
+                return render(request, 'noticeresult.html', reg_result)
+            for reg_record in current_reg['reg_list']:
+                if reg_data['parent_name'] == reg_record['parent_name']:
+                    reg_result = {'reg_success': False, 'err_msg': 'name ' + reg_data['parent_name'] + ' already exist.' }
+                    return render(request, 'noticeresult.html', reg_result)
+
             save_reg_data(district_name, story_date, reg_data)
+            reg_result = {'reg_success': True, 'err_msg': '' }
+            return render(request, 'noticeresult.html', reg_result)
 
         else:
             reg_data = {}
-
-        return render(request, 'base.html', {'reg_data': reg_data, 'district': district_name})
+            return render(request, 'base.html', {'reg_data': reg_data, 'district': district_name})
     else:
         return redirect('/chinesestory/')
 
@@ -207,7 +219,9 @@ def deletenotice(request):
         story_date = request.GET['date']
 
         notice_file = district_name + '-' + story_date + '.json'
+        reg_rile = district_name + '-' + story_date + '.reg'
         delete_notice_file(notice_file)
+        delete_reg_data(reg_file)
         
     admin_name = request.user.username
     district_name = DistrictNames[admin_name]
@@ -262,8 +276,18 @@ def read_reg_data(district_name, story_date):
             print('Error reading registration file.')
     else:
         print('The registration file doesnt exist')
+        reg_record = {}
+        reg_record['num_of_reg'] = 0
+        reg_record['reg_list'] = [] 
+        return reg_record
 
-
+def delete_reg_data(filename):
+    reg_file_path = os.path.join(settings.BASE_DIR, 'static/noticefiles/')
+    try:
+        os.remove(reg_file_path + filename)
+    except:
+        print('Error deleting registration file.')
+ 
 
 def save_notice_file(district_name, notice_data):
     json_data = {}

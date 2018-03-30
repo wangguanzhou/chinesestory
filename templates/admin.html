@@ -23,7 +23,7 @@
         </div>
         <div class="ui divider hidden"></div>
         <div>
-          <table class="ui basic table">
+          <table class="ui very basic table">
             <thead>
               {% if not active_notice_exist %} 
                 <tr><th class="center aligned" colspan="3">You have no active notice </th></tr>
@@ -37,9 +37,13 @@
                 <tr>
                   <td class="collapsing">{{ notice.story_date }}</td>
                   <td>{{ notice.story_theme }}</td>
+                </tr>
+                <tr>
+                  <td></td>
                   <td class="collapsing">
                     [<a href="/chinesestory/modifynotice/?district={{ district_name }}&date={{ notice.story_date }}"> modify </a>] -- 
-                    [<a href="/chinesestory/deletenotice/?district={{ district_name }}&date={{ notice.story_date }}"> delete </a>] 
+                    [<a href="/chinesestory/deletenotice/?district={{ district_name }}&date={{ notice.story_date }}"> delete </a>] -- 
+                    [<a href="/chinesestory/viewregistration/?district={{ district_name }}&date={{ notice.story_date }}"> view registration </a>]  
                   </td>
                 </tr>
               {% endfor %}

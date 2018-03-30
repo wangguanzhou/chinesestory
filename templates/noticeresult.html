@@ -1,0 +1,29 @@
+{% extends "./base.html" %}
+{% load static %}
+
+{% block reg-result %}
+
+		<div class="ui center aligned segment">
+      {% if reg_success %}
+      <div class="ui large message">
+        <p>Your registration is successful.</p>
+      </div>
+			<a href="/chinesestory/">
+        <div class="ui button">return</div>
+      </a>
+
+      {% else %}
+      <div class="ui large message">
+        <p>Sorry, your registration is not successful.</p>
+        <p>{{ err_msg }}</p>
+      </div>
+			<a href="/chinesestory/">
+        <div class="ui button">return</div>
+      </a>
+
+
+      {% endif %}
+
+
+		</div>
+{% endblock %}
