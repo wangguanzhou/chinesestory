@@ -7,12 +7,16 @@
       
       <div class="ui large message">
         <h3>{{ district_name }} {{ story_date }} 故事会活动报名信息</h3>
+      </div>
+    </div>
+
+		<div class="ui segment">
         <p>当前一共有 {{ reg_record.num_of_reg }} 名儿童报名</p>
         <table class="ui very basic table">
           {% for reginfo in reg_record.reg_list %}
           <tr>
             <td class="collapsing">家长名</td><td class="collapsing">{{reginfo.parent_name}}</td>
-            <td class="collapsing">儿童名</td><td>{{reginfo.child_name_1  }} {{reginfo.child_name_2}} {{reginfo.child_name_3}}</td>
+            <td class="collapsing">儿童名</td><td>{{reginfo.child_name_1  }}, {{reginfo.child_name_2}}, {{reginfo.child_name_3}}</td>
           </tr>
           {% endfor %}
         </table>
