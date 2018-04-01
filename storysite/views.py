@@ -233,7 +233,7 @@ def deletenotice(request):
     return render(request, 'admin.html', context)
  
 @login_required(login_url='/chinesestory/admin/')
-def deletenotice(request):
+def viewregistration(request):
     context = {}
     if request.GET:
         district_name = request.GET['district']
