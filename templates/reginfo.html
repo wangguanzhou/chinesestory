@@ -5,11 +5,9 @@
 
 		<div class="ui center aligned segment">
           <h3>{{ district_name }} {{ story_date }} 故事会活动报名信息</h3>
-    </div>
 
-		<div class="ui segment">
-        <p>当前一共有 {{ reg_record.num_of_reg }} 名儿童报名</p>
         <table class="ui very basic table">
+          <tr><td colspan="4">当前一共有 {{ reg_record.num_of_reg }} 名儿童报名</td></tr>
           {% for reginfo in reg_record.reg_list %}
           <tr>
             <td class="collapsing">家长名</td><td class="collapsing">{{reginfo.parent_name}}</td>
