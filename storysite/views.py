@@ -111,15 +111,15 @@ def register(request):
             current_reg = read_reg_data(district_name, story_date)
             if current_reg['num_of_reg'] >= notice_data['story_size']:
                 reg_result = {'reg_success': False, 'err_msg': '当前报名人数已经达到最大限制人数' }
-                return render(request, 'noticeresult.html', reg_result)
+                return render(request, 'regresult.html', reg_result)
             for reg_record in current_reg['reg_list']:
                 if reg_data['parent_name'] == reg_record['parent_name']:
                     reg_result = {'reg_success': False, 'err_msg': '您的名字 ' + reg_data['parent_name'] + ' 已经报名，请勿重复报名' }
-                    return render(request, 'noticeresult.html', reg_result)
+                    return render(request, 'regresult.html', reg_result)
 
             save_reg_data(district_name, story_date, reg_data)
             reg_result = {'reg_success': True, 'err_msg': '' }
-            return render(request, 'noticeresult.html', reg_result)
+            return render(request, 'regresult.html', reg_result)
 
         else:
             reg_data = {}
@@ -232,6 +232,21 @@ def deletenotice(request):
         context['active_notice'] = active_notice
     return render(request, 'admin.html', context)
  
+@login_required(login_url='/chinesestory/admin/')
+def deletenotice(request):
+    context = {}
+    if request.GET:
+        district_name = request.GET['district']
+        story_date = request.GET['date']
+        reg_record = read_reg_data(district_name, story_date)
+        context['district_name'] = district_name
+        context['story_date'] = story_date
+        context['reg_record'] = reg_record
+        return render(request, 'reginfo.html', context)
+    else:
+        return render(request, 'admin.html', context)
+        
+        
 
 def save_reg_data(district_name, story_date, reg_data):
     reg_record = {}

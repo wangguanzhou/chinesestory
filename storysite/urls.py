@@ -25,6 +25,7 @@ urlpatterns = [
     path('chinesestory/createnotice/', views.createnotice),
     path('chinesestory/modifynotice/', views.modifynotice),
     path('chinesestory/deletenotice/', views.deletenotice),
+    path('chinesestory/viewregistration/', views.viewregistration),
     path('chinesestory/shownotice/', views.shownotice),
     path('chinesestory/register/', views.register),
 ]
