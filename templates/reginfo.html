@@ -11,8 +11,8 @@
         <table class="ui very basic table">
           {% for reginfo in reg_record.reg_list %}
           <tr>
-            <td class="collapsing">家长名</td><td>{{reginfo.parent_name}}</td>
-            <td class="collapsing">儿童名</td><td>{{reginfo.child_1_name}} {{reginfo.child_2_name}} {{reginfo.child_3_name}}</td>
+            <td class="collapsing">家长名</td><td class="collapsing">{{reginfo.parent_name}}</td>
+            <td class="collapsing">儿童名</td><td>{{reginfo.child_name_1  }} {{reginfo.child_name_2}} {{reginfo.child_name_3}}</td>
           </tr>
           {% endfor %}
         </table>
